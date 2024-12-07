@@ -1,0 +1,301 @@
+TRCümlesel Nedir?
+
+TRCümlesel, 2024 yılında Simon Scap tarafından yapılan bir programlama dilidir. türkçe ve karmaşık sözdizimi ile beraber adeta bir dizi makaleyi andıran görünüşüyle bilinir, diğer hiçbir programlama diline benzemez. Genellikle kişiler bu programlama dilini kendi özel programlarını kimse anlamasın diye yaparlar bunu sağlayan şey ise TRCümlesel'deki temel sözdizimi sistem yapılandırma özelliğidir.
+
+TRCümlesel Bilgilendirme
+
+TRCümlesel, programların dosya uzantıları için 2 seçenek sunar.
+1. trc = Programlarda dosyanın sonundaki ".trc" ifadesi genel programı ifade eder. İçersine normal bir TRCümlesel kodu yazılır ve derleyici ile beraber çalıştırılır
+2. trcc = Programlarda dosyanın sonuncdaki ".trcc" ifadesi güvenli programı ifade eder. İçersine normal bir kod yazıldıktan sonra derleyici ile beraber "derleyici.exe file.trcc trcc" komutu yazılır ve dosya otomatik olarak bir trcc dosyasına çevirilir dosya içeriği şifrelenmiştir ve sadece derleyiciler okuyabilmektedir. Ayrıca komutakki derleyici.exe ifadesi TRCümlesel derleyici programını ifade eder ve file.trcc ifade ise dosyanın ismini içerir eyerki dosya .trcc ile bitmiyorsa otomatik bir uzantı olarak .tecc eklenir.
+TRCümlesel kodunu çalıştırmak için "Derleyici.exe dosya.trc" gibi bir komut satırı gerekir. Derleyici.exe genellikle TRCümlesel.exe'dir
+Kendi kodunuzu file.trc dosyasına Notepad ile veya başka birşey ile yazın sonra ise komut satırına "TRCümlesel.exe file.trc" komutunu yazın ardından kodunuz çalışacaktır
+Sonra bir program yapacaksanız komut satırına "TRCümlesel.exe file.trc trcc" yazın ve kodunuz şifreli bir programa dönüşecektir sonrasında dosyanızın uzantısı .trcc olucaktır komut satırına "TRCümlesel.exe file.trcc" yazarak şifreli kodunuzuda çalıştırabilirsiniz ancak şifrelenmiş içerikli bir TRCümlesel program dosyasının uzantısı .trcc değilde başka birşey ise hata çıkacaktır.
+Bu programlama dili içerisinde kod yazarken & program yaparken her zaman "sistem yapılandırma" kullanılmalıdır ancak kullanılırken ana kod bölümünü girmek için koda giriş yaparken alt satır karakteri kullanılmamalı sadece ana kod içersindeki ana komutları ayırırken araya bölücü eklenmelidir
+
+TRCümlesel Temel Sözdizimi
+
+1. Kural: Her giriş istemeyen yani arguman gerektirmeyen komut boşluk ile bitmek zorundadır.
+örnek: komut düzenle veri metin degisken;veri sistem-ad 
+Anlatım: bu komut "degisken" ismindeki değişkenin değerini isletim sistemi adıyla düzenler. Değeri ise posix veya nt olabilir. Ancak "veri sistem-ad" ifadesinin sonunda aslında bir boşluk vardır "veri sistem-ad " şeklinde yazılır.
+2. Kural: " > " ifadesi bazı komutlara özel bir arguman belirtme şeklidir.
+örnek: komut eyerki veri eşittir veri doğru ;veri doğru  > komut çıkış yaz veri metin Veriler aynı!
+Anlatım: bu örnekte eğerki doğru değeri doğru değerine eşitse belli bir yazıyı ekranda yazdırılır. Bu örnekte ";" ifadesi veri değeri argumanlarını ayırmak için kullanılmıştır ve " > " ifadesi kök düzeyindeki komut argumanlarını ayırmak için kullanılmıştır. " > " ile argumanlarını ayıran komutlar genellikle kök düzeyi yani olmazsa olmaz denilebilir komutlar için kullanılır. Genellikle eyerki, eyerki-değilse, yapılandırma gibi komutlarda yer alır. Ek bir bilgi ise burada ilk "veri doğru" ifadesinden sonra bir bosluk olmasinin sebebi 1. Kuraldan dolayıdır
+3. Kural: ";" ifadesi girdilerde genellikle bir sonraki arguman ile şimdiki argumanı ayırmak için kullanılır.
+örnek: komut fonksiyon-yürüt veri metin degisken_ismi;veri metin Kullanıcı // veri metin Bilgisayar
+Anlatım: bu örnekte "degisken_ismi" adına sahip olan fonksiyonunun argumanlarını Kullanıcı ve Bilgisayar olarak ayarlamıştır. burada dikkat edilmesi gereken nokta ";" ifadesi komut düzeyindeki argumanları etkilerken " // " ifadesi veri değeri düzeyini etkiler. bu ikisi karıştırılmamalıdır.
+4. Kural: " // " ifadesi liste ve demet gibi veri değerlerinde öğeleri ayırmak amacıyla kullanılır
+örnek: veri liste veri metin Öğe1 // veri metin Öğe2 // veri sayı 5
+5. Kural: " /!/ " ifadesi sadece veritabanı veri değerlerinde kullanılan bir veri ayırıcısıdır.
+örnek: veri veritabanı veri metin isim :: veri metin Ali /!/ veri metin soyisim :: veri metin Kuyumcuzade /!/ veri metin yaş :: veri sayı 24
+6. Kural: Bir kod parçasında, kod yazarken önemli olan 3 şey. Komut Kategorisi, Komut ve Argumanlardır. Komut Kategorisi, veri/komut/sistem olarak 3 çeşittedir ve her kategoride belli komutlar vardır. Bazı komutlarda olmasada argumanların doğru bir biçimde kullanılması önemlidir. Kod parçalarında genellikle "<komutkategorisi> <komut> <argumanlar>" seklinde yer alırlar.
+örnek: komut düzenle veri metin degisken;veri sayı 10
+Anlatım: bu komutta "degisken" adındaki değişken'in değeri 10 sayısı olarak düzenlenmiştir
+
+TRCümlesel Veri Komutları:
+
+1- veri sayı <sayi> = Bir sayı verisini ifade eder
+örnek: veri sayı 500
+sonuç: 500
+2- veri ondalık <ondalık sayı> = Bir ondalık sayı verisini ifade eder.
+örnek: veri ondalık 5.572
+sonuç: 5.572
+3- veri metin <yazı> = Bir metin verisini ifade eder.
+örnek: veri metin Merhaba, Dünya!
+sonuç: Merhaba, Dünya
+4- veri liste <ögeler> = Bir liste verisini ifade eder. ögeler yazan kısma öğelerin veri şeklinde ifadesini yazarız sonra aralarına " // " koyarak ayırırız.
+örnek: veri liste veri metin Öğe 1 // veri metin Öğe 2 // veri ondalık 4.5 // veri sayı 827
+sonuç: ["Öğe 1", "Öğe 2", 4.5, 827]
+5- veri demet <ögeler> = Bir demet verisini yani tuple verisini ifade eder. öğeler aynı listedeki gibi dizilir ve aralarına " // " eklenir.
+örnek: veri demet veri metin Öğe 1 // veri metin Öğe 2 // veri ondalık 4.5 // veri sayı 827
+sonuç: ("Öğe 1", "Öğe 2", 4.5, 827)
+6- veri kurdistan  = Bir kurdistan yani boşluk yani NoneType verisini ifade eder. Tanımlarken sonuna boşluk konmalıdır ve "veri kurdistan " şeklinde yazılmalıdır. Arguman gerektirmez.
+örnek: veri kürdistan 
+sonuç: None
+7- veri veritabanı <veriler> = Bir veritabanı verisini ifade eder mutlak değeri dictionary veya json olarak söylenebilir. Verileri sırasıyla dizerken bir isim ve değer gerekmektedir. isim ve değeri "<isim> :: <deger>" şeklinde yazarız. isim ve değer bir veri tanımı olmak zorundadır. ve verilerin arasına ayırmak için " /!/ " eklenir. Veri isimlerinde bir sozdizimi bulunmaz bosluk yeni satır hatta sayı bile yazılabilir
+örnek: veri veritabanı veri metin isim :: veri metin Ali /!/ veri metin soyad :: veri metin Veli /!/ veri metin il :: veri metin Konya /!/ veri metin yaş :: veri sayı 23
+sonuç: {"isim": "Ali", "soyad": "Veli", "il": "Konya", "yaş": 23}
+8- veri veritabanı-al <veritabanı verisi>;<oge ismi> = Veritabanından veri çekmeye yarar. veritabanı verisi yazan yere veritabanı tanımı gelmesi zorunludur. öğe isimide bir tanım olmak zorundadır.
+örnek: veri veritabanı-al veri veritabanı veri metin oge1 :: veri metin hello!;veri metin oge1
+örnek 2: veri veritabanı-al veri getir veri metin degisken_ismi;veri metin isim
+örnek 2 aciklama: bu örnek 2 deki getir komutu degiskenlerin verisini almada yarar.
+9- veri veritabanı-kaydet <veritabanı verisi> = Veritabanını metin verisine dönüştürerek ister dosyalarda ister başka amaçlarda kullanmaya yarar. veritabanı verisi yazan yere tanım gelebilir
+örnek: veri veritabanı-kaydet veri veritabanı veri metin oge1 :: veri metin hello!
+sonuç: {"oge1": "hello!"}
+10- veri veritabanı-yükle <kaydedilmiş veri> = Veritabanının kaydedilmiş halini mutlak haline dönüştürür yani metin halinden json haline dönüştürür.
+örnek: veri veritabanı-yükle veri metin {"oge1": "hello!"}
+sonuç: veri veritabanı veri metin oge1 :: veri metin hello!
+sonuç detay: tanım örneği verilmiştir doğrusu bellekte {"oge1": "hello!"} olarak tutullur.
+11- veri böl <bölücü>;<hedef metin> = Bir metni bölücü öğesi ile parçalara ayırmaya ve sonucunda liste elde etmeye yarar. tüm argumanları tanım olmalıdır.
+örnek: veri böl veri metin , ;veri metin Merhaba, Selam
+örnek anlatım: "Merhaba, Selam" metnini ", " bölücüsüyle böler
+sonuç: ["Merhaba", "Selam"]
+Ek Bilgi: Bu komutta eyerki metin içersinde "Türkiye" veya "Vatan" ifadesi varsa sonuç her zaman "Vatan Bölünmez!" olucaktır. Bu TRCümlesel'in bir göz dağıdır.
+12- veri birleştir <birleştirici>;<hedef liste> = Liste verisinin her öğesinin arasına birleştirici veriyi yerleştirerek metine dönüştürür. argumanlar her zaman tanım yani bir veri/komut/sistem komutu olmalıdır.
+örnek: veri birleştir veri metin , ;veri liste veri metin Merhaba // veri metin Selam
+sonuç: Merhaba, Selam
+13- veri al <indeks>;<hedef veri> = Hedef verideki indeks değerine yani sıraya sahip olan harfi veya öğeyi döndürür (alır).
+örnek: veri al veri sayı 0;veri metin Hello
+sonuç: H
+sonuç açıklama: "Hello" verisinin 0. öğesi yani ilk öğesi H'dir. İndeks Sisteminde 0 her zaman ilki temsil eder -1 sonuncusunu temsil eder. 1 ise ikinciyi 2 ise ucunuyu boylece gider. -2 ise sondan ikinciyi -3 ise sondan ucuncuyu temsil eder ve boyle gider. bu bilgiler karıştırmamalıdır.
+14- veri aralık al <indeks minimum>;<indeks maksimum>;<hedef veri> = Hedef verideki minimum indeks ile maksimum indeks arasındaki öğeleri döndürür
+örnek: veri aralık al veri sayı 0;veri sayı 2;veri metin Hello
+sonuç: He
+15- veri getir <değişken ismi> = Genelde bulunan hedef değişkenin değerini döndürür. argumanlar tanım olmalıdır.
+örnek: veri getir veri metin degisken_ismi
+sonuç (değişkenin verisini 5 olarak varsayarsak): 5
+16- veri ortak-getir <değişken ismi> = Globalde yani ortak alanda bulunan değişkenin değerini döndürür. Global nedir? Global, TRCümlesel üzerinde tüm yazılımların kodların ortak olarak erişebileceği bir alandır.
+örnek: veri ortak-getir veri metin degisken_ismi
+sonuç (değişkenin verisini 5 olarak varsayarsak): 5
+17- veri hesap topla <değerler> = Girilen değerleri toplayıp sonucu döndürür değerler tanım olmalıdır ve aralarına ";" yazılır
+örnek: veri hesap topla veri sayı 10;veri sayı 5
+sonuç: 15
+18- veri hesap çıkar <değerler> = Girilen değerleri çıkartıp sonucu döndürür değerler tanım olmalıdır ve aralarına ";" yazılır
+örnek: veri hesap çıkar veri sayı 10;veri sayı 5
+sonuç: 5
+19- veri hesap çarp <değerler> = Girilen değerleri çarpıp sonucu döndürür değerler tanım olmalıdır ve aralarına ";" yazılır
+örnek: veri hesap çarp veri sayı 10;veri sayı 5
+sonuç: 50
+20- veri hesap böl <değerler> = Girilen değerleri bölüp sonucu döndürür değerler tanım olmalıdır ve aralarına ";" yazılır
+örnek: veri hesap böl veri sayı 10;veri sayı 5
+sonuç: 2
+21- veri hesap mod <değerler> = Girilen değerleri sırasıyla modlayıp sonucu döndürür değerler tanım olmalıdır ve aralarına ";" yazılır
+örnek: veri hesap mod veri sayı 10;veri sayı 5
+sonuç: 0
+22- veri hesap üst <değerler> = Girilen değerleri sırasıyla üstlerini alıp sonucu döndürür değerler tanım olmalıdır ve aralarına ";" yazılır
+örnek: veri hesap üst veri sayı 10;veri sayı 5
+sonuç: 100000
+23- veri doğru  = Bu veri doğru yani True verisini ifade eder. sonuna boşluk eklenmelidir
+örnek: veri doğru 
+sonuç: True
+24- veri yanlış  = Bu veri yanlış yani False verisini ifade eder. sonuna boşluk eklenmelidir
+örnek: veri yanlış 
+sonuç: False
+25- veri eşittir <veri1>;<veri2> = veri 1 ile veri 2 nin eşit olup olmadığını kontrol eder. veriler tanım olmalıdır
+örnek: veri eşittir veri sayı 123;veri sayı 123
+sonuç: True
+26- veri büyüktür <veri1>;<veri2> = veri 1'in veri 2 den büyük olup olmadığını kontrol eder. veriler tanımdır.
+örnek: veri büyüktür veri sayı 2;veri sayı 1
+sonuç: True
+27- veri küçüktür <veri1>;<veri2> = veri 1'in veri 2den küçük olup olmadigini kontrol eder. veriler tanımdır
+örnek: veri küçüktür veri sayı 1;veri sayı 2
+sonuç: True
+28- veri eşit-büyüktür <veri1>;<veri2> = veri 1, veri 2'den büyükse veya ona eşitse True döndürür değilse False döndürür. veriler tanımdır
+örnek: veri eşit-büyüktür veri sayı 1;veri sayı 1
+sonuç: True
+29- veri eşit-küçüktür <veri1>;<veri2> = veri 1, veri 2'den küçükse veya ona eşitse True döndürür değilse False döndürür. veriler tanımdır
+örnek: veri eşit-küçüktür veri sayı 1;veri sayı 1
+sonuç: True'
+30- veri kod <kod> = TRCümlesel kodunu çalıştırır diğer ismi evaluate'dir.
+örnek: veri kod veri sayı 100
+sonuç: 100
+31- veri dosya-oku <dosya ismi veya yolu>;<kodlama türü> = Bir dosyanın içeriğini okur ve döndürür. kodlama türü girmek zorunlu değildir. kodlama türü utf-8, utf-16, utf-32 veya benzerleri olabilir. tüm girişler tanım olmalıdır
+örnek: veri dosya-oku veri metin dosya.txt;veri metin utf-8
+sonuç (misali): Bu bir okunan dosya içeriğidir!
+32- veri dosya-okubit <dosya ismi veya yolu>;<kodlama türü> = Bir dosyanın içeriğini byte yani bit yönüyle direkt olarak okur. Sonuç byte metni değil otomatik metine dönüştürülür. kodlama türü zorunlu değildir. genellikle fotoraf veya video dosyalarını okumakta kullanılır. tüm girişler tanım olmalıdır.
+örnek: veri dosya-okubit veri metin dosya.txt veri metin utf-32
+sonuç (misali): Bu bir okunan bit yönüyle dosya içeriğidir. Bu dosya içerikleri normal dosya okuma yoluyla okunamaz bu yüzden bit yöntemiyle başvurulur. :)
+33- veri dosya-yaz <dosya ismi veya yolu>;<kodlama türü>;<içerik> = Dosyaya içerik yazar. tüm girişler zorunlu ve tanımdır. 
+örnek: veri dosya-yaz veri metin dosya.txt;veri metin utf-8;veri metin Dosya içeriği burada!
+sonuç (içerigin kendisi geri dondurulur): Dosya içeriği burada!
+33- veri dosya-yazbit <dosya ismi veya yolu>;<kodlama türü>;<içerik> = Dosyaya bit yoluyla içerik yazar. tüm girişler zorunlu ve tanımdır.
+örnek: veri dosya-yazbit veri metin dosya.txt;veri metin utf-8;veri metin Dosya içeriği burada!
+sonuç: Dosya içeriği burada!
+34- veri mutlak <veri> = Girilen verinin mutlak değerini doldurur. veri tanım olmalıdır.
+örnek: veri mutlak veri ondalık -5.6
+sonuç: 5.6
+örnek 2: veri mutlak veri ondalık 1.1
+sonuç 2: 1.1
+35- veri uzunluk <veri> = Girilen verinin uzunluğunu döndürür. veri tanım olmalıdır
+örnek: veri uzunluk veri metin Hello!
+sonuç: 6
+örnek 2: veri uzunluk veri liste veri sayı 1 // veri metin Test // veri ondalık 4.5
+sonuç 2 (listedeki oge sayisi): 3
+36- veri ascii-kod-değer <veri> = Girilen metindeki karakterin ASCII/Unicode değerini döndürür. veri tanım olmalıdır.
+örnek: veri ascii-kod-değer veri metin a
+sonuç: 97
+36- veri ascii-kod-harf <veri> = Girilen metindeki karakter değerini ASCII/Unicode'da karşılık gelen harfi döndürür. veri tanım olmalıdır.
+örnek: veri ascii-kod-değer veri sayı 97
+sonuç: a
+37- veri yuvarlama <hedef veri>;<ondalık uzunluğu değeri> = Girilen sayının ondalık tarafındaki boyutu ayarlar. tüm girişler tanım olmalıdır
+örnek: veri yuvarlama veri ondalık 5.68;veri sayı 1
+sonuç: 5.6
+38- veri minimum <liste verisi> = Liste veya demet verisindeki en küçük değeri döndürür. girişler tanım olmalıdır
+örnek: veri minimum veri liste veri sayı 5 // veri sayı 10
+sonuç: 5
+39- veri maksimum <liste verisi> = Liste veya demet verisindeki en büyük değeri döndürür. girişler tanım olmalıdır
+örnek: veri maksimum veri liste veri sayı 5 // veri sayı 10
+sonuç: 10
+40- veri sırala <liste verisi> = Liste veya demet verisindeki değerleri küçükten büyüğe doğru sıralar. girişler tanım olmalıdır
+örnek: veri sırala veri liste veri sayı 3 // veri sayı 1 // veri sayı 2
+sonuç: [1, 2, 3]
+41- veri kimlik <hedef veri> = Girilen veri ne olursa olsun onun kimliğini döndürür. giriş tanım olmak zorundadır.
+örnek: veri kimlik veri metin a123
+sonuç (misali): 524183653232
+42- veri metinleştir <veri> = Veriyi metine dönüştürür. veri tanım olmalıdır.
+örnek: veri metinleştir veri sayı 5
+sonuç (metin olarak): 5
+43- veri sayılaştır <veri> = Veriyi sayıya dönüştürür. veri tanım olmalıdır
+örnek: veri sayılaştır veri metin 4
+sonuç (sayı olarak): 4
+örnek 2: veri sayılaştır veri metin test
+sonuç 2: Hata (çünkü test bir sayı degeri degil)
+44- veri ondalıklaştır <veri> = Veriyi ondalıklı sayıya dönüştürür. veri tanımdır
+örnek: veri ondalıklaştır veri metin 6.77
+sonuç (ondalıklı sayı olarak): 6.77
+45- veri listeleştir <veri> = Veriyi listeye dönüştürür. Metin girilirse harfler ayrılır. Liste girilirse aynı kalır. veri tanımdır
+örnek: veri listeleştir veri metin Hello
+sonuç: ["H", "e", "l", "l", "o"]
+46- veri ters <veri> = Verinin ters çevirilmiş halini döndürür. veri tanımdır
+örnek: veri ters veri metin 12345a
+sonuç: a54321
+47- veri sistem-argumanlar  = Komut satırında kod çalıştırılırken kullanılan argumanları dosya ismiyle birlikte döndürür. sonuna boşluk eklemek zorunludur
+örnek: veri sistem-argumanlar 
+sonuç (misali): ["file.trc"]
+48- veri sistem-sürüm  = TRCümlesel Sürümünü döndürür. Sonuna boşluk eklenmelidir.
+örnek: veri sistem-sürüm 
+sonuç (misali): 1.0.0 (BASLANGIC) December 2024
+49- veri sistem-python-sürüm  = TRCümlesel'in resmi derleyicisi olan Python'un cihazdaki sürümü döndürür. sonuna boşluk eklenmelidir.
+örnek: veri sistem-python-sürüm 
+sonuç: 3.11.4 (main, Sep 30 2023, 10:54:38) [GCC 11.4.0]
+50- veri sistem-yol  = Sistem yolunu döndürür. sonuna boşluk eklenmelidir
+örnek: veri sistem-yol 
+sonuç (misali): ["C:/Users/username"]
+51- veri sistem-platform  = Sistem platform ismini döndürür. sonuna boşluk eklenmelidir.
+örnek: veri sistem-platform 
+sonuç (misali): linux
+52- veri sistem-ad  = İsletim sistemi ismini döndürür. sonuna boşluk eklenmelidir.
+örnek: veri sistem-ad 
+sonuç (misali): posix
+53- veri sistem-çalışma-dizini  = Kodun çalışma dizinini döndürür. sonuna boşluk eklenmelidir
+örnek: veri sistem-çalışma-dizini 
+sonuç (misali): C:/Users/username/Desktop/TRCümlesel
+54- veri sistem-dosya-listele <klasör veya klasör yolu>= Klasördeki dosyaları listeler. klasör veya klasör yolu girişi zorunlu değildir ancak yazılmassa komutun sonuna boşluk eklenmelidir.
+örnek: veri sistem-dosya-listele 
+sonuç (misali): ["file.trc", "data.sql", "photo.png"]
+55- veri zaman  = Zaman değerini döndürür. sonuna boşluk eklenmelidir
+örnek: veri zaman 
+sonuç: 1733414160.709461
+56- veri python <kod> = Python kodunu evaluate yöntemiyle çalıştırıp sonucunu döndürür.
+örnek: veri python (5+5)*100
+sonuç: 1000
+57- veri fmetin <veri> = Girilen veriyi f-string yöntemiyle düzenler. veri tanım olmalıdır genellikle metin kullanılır. Bulunan değişkenlerin isimleriyle birlikte girişte bulunan !!degiskenismi yazan yerlere degisken ismine sahip olan degiskenin degeri yerlestirilir global degiskenleri yani ortak degiskenleri kullanmak icin ise ??degiskenismi yazilir ve isme sahip olan ortak degisken yazilir
+
+TRCümlesel Genel/Komut Komutları
+
+1- komut düzenle <değişken ismi>;<değişken değeri> = Genel değişken düzenler. Girişler tanımdır ayrıca değişken isminin kuralı yoktur ";" hariç herşey eklenebilmektedir.
+örnek: komut düzenle veri metin degisken_ismi;veri sayı 100
+sonuç (kullanilan degeri geri dondurur): 100
+2- komut ortak-düzenle <değişken-ismi>;<değişken değeri> = Ortak yani global değişkeni düzenler. Girişler tanımdır ayrıca değişken isminin kuralı yoktur ";" hariç herşey eklenebilmektedir.
+örnek: komut ortak-düzenle veri metin degisken_ismi;veri sayı 100
+sonuç: 100
+3- komut kaldır <değişken ismi> = Girilen değişkeni kaldırır/yok eder. Giriş tanımdır.
+örnek: komut kaldır veri metin degisken_ismi
+sonuç (sonuc donmez): None
+4- komut ortak-kaldır <değişken ismi> = Girilen global yani ortak değişkeni kaldırır/yok eder. Giriş tanımdır.
+örnek: komut ortak-kaldır veri metin degisken_ismi
+sonuç (sonuc donmez): None
+5- komut çıkış yaz <metin girişi> = Girilen metini çıkış dosyasına yani ekrana yazar. Giriş tanımdır.
+örnek: komut çıkış yaz veri metin Hello, World!
+sonuç: Hello, World!
+6- komut çıkış gönder  = Çıkış dosyasına gönderilmek için tutulan her yazıyı anında gönderir. Genel dilde flush olarak adlandırılır. Sonuna boşluk eklenmelidir.
+örnek: komut çıkış gönder 
+sonuç (eyerki gönderilecek bir yazı varsa yazıyı yazar): Hello, World!
+7- komut hata yaz <metin girişi> = Girilen metini hata dosyasına yani ekrana yazar ve hata gönderilir. Giriş tanımdır.
+örnek: komut hata yaz veri metin Hello, World!
+sonuç: Hello, World!
+8- komut hata gönder  = Hata dosyasına gönderilmek için tutulan her yazıyı anında gönderir. Genel dilde flush olarak adlandırılır. Sonuna boşluk eklenmelidir.
+örnek: komut hata gönder 
+sonuç (eyerki gönderilecek bir yazı varsa yazıyı yazar): Hello, World!
+9- komut giriş al  = Kullanıcıdan sadece EOF tuşuyla çıkılabilecek bir giriş sunar kullanici bir metin girer. sonuna bosluk eklenmelidir
+örnek: komut giriş al 
+sonuç (misali): Merhaba, Dünya!
+10- komut giriş satır-al  = Kullanıcıdan sadece alt satıra geçerek çıkabileceği bir giriş sunar kullanıcı bir metin girer. sonuna boşluk eklenmelidir
+örnek: komut giriş satır-al 
+sonuç (misali): Merhaba, Dünya
+11- komut fonksiyon <değişken ismi>;<argumanlar>;<kod> = Bir fonksiyon oluşturur. sadece değişken ismi girişi tanım olmalıdır. argumanlar "argumanismi // arguman2ismi" seklinde yazilmalidir istenilen kadar arguman yazilabilir örnek olarak mesela "isim // soyisim // yas" gibi veya "x" yazarak tek bir arguman yazilabilir. Argumanları kullanmak için kodun içersinde !!argumanismi ifadesi kullanılır.
+örnek: komut fonksiyon veri metin degisken_ismi;arguman1 // arguman2;komut çıkış yaz veri metin Merhaba, !!arguman1! Ben deniz !!arguman2.
+sonuç (sadece fonksiyonu olusturur): None
+12- komut fonksiyon-yürüt <değişken ismi>;<argumanlar> = Fonksiyonu yürütür yani çalıştırır. Sadece değişken ismi girişi tanım olmalıdır. Arguman girişi "<argumangirisi> // <argumangirisi2>" seklinde olur ancak arguman öğeleri tanımdır ancak arguman girişi arguman degildir sadece öğeleri tanımdırm
+örnek: komut fonksiyon-yürüt veri metin degisken_ismi;veri metin Kullanıcı // veri metin Bilgisayar
+sonuç (misali): Merhaba, Kullanıcı! Ben deniz Bilgisayar.
+13- komut sistem-çıkış  = Bulunan programdan çıkış yapılır yani program kapatılır ancak sadece mevcut iş parçacığından çıkılır. sonuna boşluk eklenmelidir. sys exit olarak bilinir
+örnek: komut sistem-çıkış 
+sonuç (program kapandığından sonuç yoktur): None
+14- komut sistem-yürüt <liste> = İşletim sistemi komudu çalıştırır. Liste tanım olmalıdır ve sistem komudunun program ile argumanlarını içermelidir. genellikle listenin ilk öğesi program ismi veya program yoludur diğer öğeler ise programın argumanıdır.
+örnek: komut sistem-yürüt veri liste veri metin mkdir // veri metin ornek_klasor
+sonuç (sistem komutunda bir çıkış veya hata var ise sonuçda yazar): None
+15- komut python <kod> = Python kodunu çalıştırır. Bu genel dilde executing olarak bilinir. kod tanım olması gerekmez.
+örnek: komut python print("Hello!")
+a = 500
+print(a)
+sonuç: Hello!
+500
+16- komut eyerki <durum tanımı> > <kod> = Durum tanımı eyerki doğruysa yani True ise sonuç olarak kod çalıştırılır. ancak kod tanım değildir durum tanımı ile kod arasına " > " eklenir.
+örnek: komut eyerki veri eşittir veri doğru ;veri doğru  > komut çıkış yaz veri metin Veriler aynı!
+sonuç: Veriler aynı!
+17- komut eyerki-değilse <durum tanımı> > <kod> = Durum tanımı eyerki yanlışsa yani False ise kodu çalıştırır. kod tanım değildir durum tanımı tanımdır. durum tanımı ile kodun arasına " > " eklenir.
+örnek: komut eyerki-değilse veri eşittir veri doğru ;veri yanlış  > komut çıkış yaz veri metin Veriler aynı değil!
+sonuç: Veriler aynı değil!
+18- komut hata işleme <fonksiyon değışkeni ismi>;<kod> = Eyerki kod çalıştırıldığında ortaya hata çıkıyor ise hata işleme fonksiyonu çalıştırılır. Kod bir TRCümlesel kodu olmalıdır ancak tanım olarak kabul edilmez. Fonksiyon ismi tanım olmalıdır ve fonksiyon hata durumunda çalıştırılınca fonksiyondaki ilk argumana metin şeklinde hata metni yazılır.
+örnek: komut hata işleme veri metin hata_fonksiyonu;veri sayı HatalıSayı
+sonuç (misali): Hata bulundu: invalid literal for int() with base 10: 'HatalıSayı'
+19- komut öğe döngüsü <öğe listesi> > <kod> = Bir öğe döngüsü yani genel dilde For döngüsü oluşturur. Öğe listesi tanım olmalıdır liste tanımı veya demet tanımı olabilir. Öğe listesi ile kod arasına " > " eklenir. Her öğeyi işlerken öğe değerleri genel değişkenlerden "öğe" değişkenine yazılır yani kod içersinde !!öğe kullanırsanız gerekli öğeyi "metin" olarak çağırmış olursunuz.
+örnek: komut öğe döngüsü veri liste veri sayı 1 // veri sayı 2 // veri sayı 3 > komut çıkış yaz veri metinleştir veri hesap üst veri getir veri metin öğe;veri sayı 3
+sonuç (misali): 1827
+20- komut genel döngü <durum tanımı> > <kod> = Sürekli olarak durum tanımı True ise yani doğru ise kodu çalıştırır eyerki False ise yani yanlış ise döngü durur.
+örnek: komut genel döngü veri doğru  > komut çıkış yaz veri metin Sonsuza kadar metin!
+sonuç: Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!Sonsuza kadar metin!.......
+
+TRCümlesel Sistem Komutları
+
+Sistem Komutları, TRCümlesel'in olmazsa olmaz denilebilecek bir kategorisidir, bu karegori sayesinde gerçek kodlar yazılabilir programlarda tamamen Sistem Komutları kullanılmalıdır.
+
+1- sistem yeni ortam <kod> = Yeni bir değişken ortamı oluşturur paralel ortam olarak adlandırılır. Ardından bu ortamda girilen kod çalıştırılır. Değişkensiz derken değişkenler yok sadece sıfırdan yeniden bir ortam.
+örnek: sistem yeni ortam komut çıkış yaz veri metin Burası değişkensiz paralel bir ortam!
+sonuç: Burası değişkensiz paralel bir ortam!
+2- sistem iş parçacığı <kod> = Yeni bir iş parçacığı oluşturup orada yeni bir ortam oluşturur. Bu sayede birden fazla kod çalıştırılabilir.
+örnek: sistem iş parçacığı komut çıkış yaz veri metin Burası bir yeni iş parçacığı ortamı!
+sonuç: Burası bir yeni iş parçacığı ortamı!
+3- sistem yapılandırma <bölücü> > <alt satır tanımı> > <satır başı tanımı> > <sekme karakteri tanımı> > <eğik çizgi tanımı> > <tek tırnak tanımı> > <çift tırnak tanımı> > <ana kod> = Tüm TRCümlesel programlarında olması gereken sistem yapılandırması, özelleştirilebilir bir syntax ile beraberdir. Bölücü girişi ana kod içersindeki komutları teker teker ayıran bir giriştir. Alt satır tanımı, satır başı tanımı, sekme karakteri tanımı, eğik çizgi tanımı, tek tırnak tanımı ve çift tırnak tanımı girişleri genellikle !! ile başlar kod içersinde karakterleri tanımlamak içindir ve kod çalıştırıldığında tanımların yerleri hedef karakteriyle değiştirilir. Ana kod tüm TRCümlesel kodunun bütünüdür programın kendisidir.
+örnek (TRCümleseldeki ilk programı örnek olarak gösteriyoruz): sistem yapılandırma /// > !!n > !!r > !!t > !!e > !!tt > !!ct > komut çıkış yaz veri metin Merhaba! Bu TRCümlesel programlama diliyle yapılmış ilk sistemdir.!!nTRCümlesel Nedir? Öğrenmesi ve yapması zor olan türkçe sözdizimi ile yapılmış bir progralama dilidir. Kendi içersinde özelleştirilebilir sözdizimi özellikleri vardır.!!nİsminizi alabilirmiyim?: ///komut düzenle veri metin isim;komut giriş satır-al ///komut çıkış yaz veri fmetin Merhaba !!isim! Sizinle tanışmak çok güzel.!!nProgramı beyendinizmi? (E/H): ///komut düzenle veri metin beyenmek;komut giriş satır-al ///komut eyerki veri eşittir veri getir veri metin beyenmek;veri metin E > komut çıkış yaz veri metin Beğendiğinize çok sevindim...///komut eyerki-değilse veri eşittir veri getir veri metin beyenmek;veri metin E > komut çıkış yaz veri metin Beğenmediğiniz için üzülüyorum :(
+sonuç: (Merak edenler kodu çalıştırıp sonucuna kendisi bakabilirler)
