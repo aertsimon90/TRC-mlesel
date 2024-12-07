@@ -590,7 +590,7 @@ class ShieldKEY: # Shield Kryptographic Engine for Yield
 			newtext += chr(self.convert(ord(h), ord(h)*30, ord(h)+283+n)%1114112)
 			n += ord(h)
 		return newtext
-key_engine = ShieldKEY(chars="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890")
+key_engine = None
 if len(sys.argv) != 0:
 	filename = sys.argv[0]
 	with open(filename, 'rb') as f:
@@ -600,6 +600,7 @@ if len(sys.argv) != 0:
 			enkod = "utf-8"
 	i = raw_data.decode(enkod)
 	if "trcc" in sys.argv:
+		key_engine = ShieldKEY(chars="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890")
 		newi = key_engine.encode(key_engine.encrypt(i, "TRCC"*8))
 		if not filename.endswith(".trcc"):
 			filename = ".".join(filename.split(".")[:-1])+".trcc"
@@ -607,6 +608,7 @@ if len(sys.argv) != 0:
 			f.write(newi)
 	else:
 		if filename.endswith(".trcc"):
+			key_engine = ShieldKEY(chars="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890")
 			i = key_engine.decrypt(key_engine.decode(i), "TRCC"*8)
 		run(i, vars={})
 else:
